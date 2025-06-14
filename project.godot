@@ -64,6 +64,11 @@ input_look_right={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="Player"
+3d_physics/layer_2="Walls"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

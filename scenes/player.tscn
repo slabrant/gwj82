@@ -9,6 +9,7 @@
 [sub_resource type="PrismMesh" id="PrismMesh_qhqgy"]
 
 [node name="Player" type="CharacterBody3D"]
+collision_mask = 2
 script = ExtResource("1_3vyb7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
