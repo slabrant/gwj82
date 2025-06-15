@@ -1,36 +1,49 @@
 extends CharacterBody3D
 
-var movement_speed: float = 2.0
-var movement_target_position: Vector3 = Vector3(-3.0,0.0,2.0)
-
-@onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @export var CHASING : bool = false
+@export var MOVEMENT_SPEED: float = 3.0
 
-func _ready():
-	# These values need to be adjusted for the actor's speed
-	# and the navigation layout.
-	navigation_agent.path_desired_distance = 0.5
-	navigation_agent.target_desired_distance = 0.5
+@onready var follow_timer: Timer = $FollowTimer
+@onready var mom_navigation: NavigationAgent3D = $MomNavigation
+@onready var detection_area: Area3D = $DetectionArea
+@onready var walking_sound: AudioStreamPlayer3D = $WalkingSound
 
-	# Make sure to not await during _ready.
-	actor_setup.call_deferred()
 
-func actor_setup():
-	# Wait for the first physics frame so the NavigationServer can sync.
-	await get_tree().physics_frame
+func _ready() -> void:
+	print("Mom ready; connecting signals…")
+	$DetectionArea.body_entered.connect(self._on_body_entered)
+	$DetectionArea.body_exited.connect(self._on_body_exited)
+	walking_sound.stop()
 
-	# Now that the navigation map is no longer empty, set the movement target.
-	set_movement_target(movement_target_position)
-
-func set_movement_target(movement_target: Vector3):
-	navigation_agent.set_target_position(movement_target)
 
 func _physics_process(delta):
-	if navigation_agent.is_navigation_finished():
-		return
-
-	var current_agent_position: Vector3 = global_position
-	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
-
-	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
+	var old_velocity = velocity
+	if Input.is_action_just_pressed("input_run"):
+		CHASING = !CHASING
+	
+	if CHASING:
+		mom_navigation.set_target_position(get_node("../Player").global_position)
+		var next_point = mom_navigation.get_next_path_position()
+		velocity = (next_point - global_position).normalized() * MOVEMENT_SPEED
+		look_at(next_point)
+	else:
+		velocity = Vector3.ZERO
+	
+	if (Vector3.ZERO == velocity) != (Vector3.ZERO == old_velocity):
+		toggle_walking_sound()
+	
 	move_and_slide()
+
+
+func toggle_walking_sound():
+	if walking_sound.playing == true:
+		walking_sound.stop()
+	else:
+		walking_sound.play(randf_range(0.0, walking_sound.stream.get_length()))
+
+
+func _on_body_entered(body):
+	CHASING = true
+	print("DetectionArea body_entered → ", body.name)
+func _on_body_exited(body):
+	print("DetectionArea body_exited  ← ", body.name)
