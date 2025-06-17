@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://cdwwm4b6gi2di"]
+[gd_scene load_steps=6 format=3 uid="uid://cdwwm4b6gi2di"]
 
 [ext_resource type="PackedScene" uid="uid://d2l14giun31tm" path="res://scenes/player.tscn" id="1_nnsk1"]
-[ext_resource type="Script" uid="uid://cx23ypcgrv8fy" path="res://scenes/world.gd" id="1_rwgxs"]
 [ext_resource type="PackedScene" uid="uid://dylc8icgoxxbs" path="res://scenes/mom.tscn" id="3_4wyf3"]
 [ext_resource type="PackedScene" uid="uid://d1ga74cgj8x3v" path="res://scenes/wall.tscn" id="4_k0juu"]
 
@@ -13,7 +12,6 @@ polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 size = Vector2(50, 50)
 
 [node name="World" type="Node3D"]
-script = ExtResource("1_rwgxs")
 
 [node name="Player" parent="." instance=ExtResource("1_nnsk1")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -23)
@@ -22,7 +20,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 transform = Transform3D(-1, 6.18172e-08, -6.18172e-08, 0, 0.707107, 0.707107, 8.74228e-08, 0.707107, -0.707107, 0, 32.298, -30)
 
 [node name="Mom" parent="." instance=ExtResource("3_4wyf3")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.151502, 0.412936, -31.2455)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.151502, 0.412936, -36.6621)
 
 [node name="SWall" parent="." instance=ExtResource("4_k0juu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25)
@@ -38,6 +36,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -25, 0
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+visible = false
 light_energy = 20.0
 light_indirect_energy = 20.0
 omni_range = 100.0

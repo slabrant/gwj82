@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2l14giun31tm"]
+[gd_scene load_steps=6 format=3 uid="uid://d2l14giun31tm"]
 
 [ext_resource type="Script" uid="uid://rdcqd8rruek4" path="res://scenes/player.gd" id="1_3vyb7"]
+[ext_resource type="AudioStream" uid="uid://csn88jygsrx4j" path="res://assets/thumping.ogg" id="2_g2els"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vyb7"]
 
@@ -24,3 +25,7 @@ mesh = SubResource("PrismMesh_qhqgy")
 
 [node name="AudioListener3D" type="AudioListener3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="ThumpSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_g2els")
+autoplay = true
